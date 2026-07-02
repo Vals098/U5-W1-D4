@@ -1,7 +1,6 @@
 package valeriafarinosi.U5_W1_D4.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -16,11 +15,17 @@ import java.util.List;
 @ToString(callSuper = true)
 public class Pizza extends Item {
 
-    private List<Topping> toppingList;
+    @ManyToMany
+    @JoinTable(
+            name = "pizza_toppings",
+            joinColumns = @JoinColumn(name = "pizza_id"),
+            inverseJoinColumns = @JoinColumn(name = "topping_id")
+    )
+    private List<Topping> toppingList = new ArrayList<>();
+
 
     public Pizza(String name, double price, int calories) {
         super(name, price, calories);
-        this.toppingList = new ArrayList<>();
     }
 
     public void addTopping(Topping topping) {
